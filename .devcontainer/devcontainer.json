@@ -1,0 +1,21 @@
+{
+    "name": "userver-demo",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "options": [
+            "--progress=plain",
+            "--no-cache"
+        ]
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools-extension-pack",
+                "ms-python.python"
+            ]
+        }
+    },
+    "forwardPorts":[
+        8080
+    ]
+}
