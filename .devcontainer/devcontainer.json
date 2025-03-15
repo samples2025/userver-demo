@@ -1,0 +1,38 @@
+{
+    "name": "sample",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "options": [
+            "--progress=plain",
+            "--no-cache"
+        ]
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "llvm-vs-code-extensions.vscode-clangd",
+                "ms-vscode.cmake-tools",
+                "ms-vscode.makefile-tools",
+                "vadimcn.vscode-lldb",
+                "ms-azuretools.vscode-docker"
+            ],
+            "settings": {
+                "cmake.automaticReconfigure": false,
+                "cmake.configureOnEdit":  false,
+                "cmake.configureOnOpen": false,
+                "cmake.copyCompileCommands": "${workspaceFolder}/.vscode/compile_commands.json",
+                "clangd.path": "/usr/bin/clangd",
+                "clangd.arguments": [
+                    "--background-index",
+                    "--compile-commands-dir=.vscode",
+                    "--clang-tidy",
+                    "--completion-style=detailed",
+                    "--header-insertion=never"
+                ]
+            }
+        }
+    },
+    "forwardPorts": [
+        8080
+    ]
+}

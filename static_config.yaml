@@ -1,0 +1,44 @@
+components_manager:
+    task_processors:                  # Task processor is an executor for coroutine tasks
+        main-task-processor:          # Make a task processor for CPU-bound coroutine tasks.
+            worker_threads: 4         # Process tasks in 4 threads.
+
+        fs-task-processor:            # Make a separate task processor for filesystem bound tasks.
+            worker_threads: 1
+
+    default_task_processor: main-task-processor  # Task processor in which components start.
+
+    components:                       # Configuring components that were registered via component_list
+        server:
+            listener:
+                port: 8080
+                task_processor: main-task-processor    # ...process incoming requests on this task processor.
+        logging:
+            fs-task-processor: fs-task-processor
+            loggers:
+                default:
+                    file_path: "@stdout"
+                    level: info
+                    flush_level: info
+                    format: tskv
+                    overflow_behavior: discard
+        controller-webhook:
+            path: /
+            method: GET,POST
+            task_processor: main-task-processor
+        http-client:
+            pool-statistics-disable: false
+            thread-name-prefix: http-client
+            threads: 2
+            fs-task-processor: fs-task-processor
+            destination-metrics-auto-max-size: 100
+        dns-client:
+            fs-task-processor: fs-task-processor
+            hosts-file-path: /etc/hosts
+            hosts-file-update-interval: 5m
+            network-timeout: 1s
+            network-attempts: 1
+            cache-ways: 16
+            cache-size-per-way: 256
+            cache-max-reply-ttl: 5m
+            cache-failure-ttl: 5s
